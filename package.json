@@ -1,0 +1,26 @@
+{
+  "name": "currencytgbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voitekhovich/currencyTgBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/voitekhovich/currencyTgBot/issues"
+  },
+  "homepage": "https://github.com/voitekhovich/currencyTgBot#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "jsdom": "^22.1.0",
+    "moment": "^2.29.4",
+    "node-telegram-bot-api": "^0.63.0"
+  }
+}
