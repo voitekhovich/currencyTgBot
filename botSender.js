@@ -44,6 +44,13 @@ bot.onText(/\/start/, async (msg) => {
   files.saveMapToFile(messagesID);
 });
 
+bot.onText(/\/info/, async (msg) => {
+  text = constants.infoBotText;
+  bot.sendMessage(msg.chat.id, text, {
+    parse_mode: "HTML",
+  });
+});
+
 const messageUpdate = () => {
   console.log("Update messages...");
   for (let item of messagesID) {

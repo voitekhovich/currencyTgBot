@@ -11,10 +11,17 @@ console.log("Start project...");
 let lastDate = "";
 
 const getCurrency = () => {
-  currency.getCurrency().then((res) => {
-    lastDate = res;
-    bot.tgBot(res);
-  });
+  currency.getCurrency()
+    .then((res) => {
+      lastDate = res;
+      bot.tgBot(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      console.log('getCurrency - Done');
+    })
 };
 
 getCurrency();
