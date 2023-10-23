@@ -1,6 +1,6 @@
 exports.MYFIN_SRC = "https://admin.myfin.by/outer/informer/minsk/full";
 exports.DATABASE_FILE_NAME = "./msgdata.json";
-exports.INTERVAL_UPDATE = 5000; // 600000 - 10 minutes .. 900000 - 15 minutes
+exports.INTERVAL_UPDATE = 900000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
 exports.commands = [
   {
