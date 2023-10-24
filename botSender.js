@@ -15,7 +15,10 @@ exports.tgBot = (text) => {
 console.log("Start bot...");
 
 const bot = new TelegramBot(API_KEY_BOT, {
-  polling: true,
+  polling: {
+    interval: 500,
+    autoStart: true,
+  },
 });
 
 bot.setMyCommands(constants.commands);
