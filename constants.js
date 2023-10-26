@@ -2,17 +2,17 @@ exports.MYFIN_SRC = "https://admin.myfin.by/outer/informer/minsk/full";
 exports.BCSE_API_SRC = "https://www.bcse.by/markets/currency/init_results";
 
 exports.DATABASE_FILE_NAME = "./msgdata.json";
-exports.INTERVAL_UPDATE = 60000; // 600000 - 10 minutes .. 900000 - 15 minutes
+exports.INTERVAL_UPDATE = 600000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
 exports.commands = [
   {
     command: "start",
     description: "Запустить бота",
   },
-  {
-    command: "info",
-    description: "О боте",
-  },
+  // {
+  //   command: "info",
+  //   description: "О боте",
+  // },
   // {
   //   command: "currency",
   //   description: "Обновить курсы валют",

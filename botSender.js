@@ -1,6 +1,7 @@
 const TelegramBot = require("node-telegram-bot-api");
 const constants = require("./constants.js");
 const files = require("./files.js");
+const fs = require("fs");
 
 const API_KEY_BOT = process.env.API_KEY_BOT;
 
@@ -45,6 +46,13 @@ bot.onText(/\/start/, async (msg) => {
   messagesID.set(res.chat.id, res.message_id);
   console.log(messagesID);
   files.saveMapToFile(messagesID);
+});
+
+bot.onText(/гус/, async (msg) => {
+  // const imageStream = fs.createReadStream("./goose.jpg");
+  // await bot.sendPhoto(msg.chat.id, imageStream);
+  const imageBuffer = fs.readFileSync("./goose.jpg");
+  await bot.sendPhoto(msg.chat.id, imageBuffer);
 });
 
 bot.onText(/\/info/, async (msg) => {
