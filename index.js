@@ -1,58 +1,41 @@
 require("dotenv").config();
 
-// const currency = require("./exchangeRates/myfin.js");
-const { DATABASE_FILE_NAME } = require("./utils/constants");
+const { DATABASE_FILE_NAME, INTERVAL_UPDATE } = require("./utils/constants");
 const { readFile } = require("./utils/files");
-// const bot = require("./telegramBot/index.js");
+const bot = require("./telegramBot/index.js");
 const bcseCurrency = require("./exchangeRates/bcseHtml");
-const { toText, toTextOfValues } = require("./utils/string");
-
-// const INTERVAL = constants.INTERVAL_UPDATE;
-// const DATABASE_FILE_NAME = constants.DATABASE_FILE_NAME;
+const { toTextOfValues } = require("./utils/string");
 
 console.log("Start project...");
 
-let dataBase = readFile(DATABASE_FILE_NAME);
 let lastDate = "";
 
+const getCurrency = () => {
+  bcseCurrency.getData()
+    .then((res) => {
+      lastDate = toTextOfValues(res, ['USD','EUR','RUB'], true);
+      console.log(lastDate);
+      bot.tgBot(lastDate);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      console.log("getCurrency - Done");
+    });
+};
 
-// const getCurrency = () => {
-//   currency
-//     .getCurrency()
-//     .then((res) => {
-//       lastDate = res;
-//       bot.tgBot(res);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-//     .finally(() => {
-//       console.log("getCurrency - Done");
-//     });
-// };
+getCurrency();
 
-// const getCurrency = () => {
-//   bcseCurrency.getData()
-//     .then((res) => {
-//       lastDate = res;
-//       bot.tgBot(res);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-//     .finally(() => {
-//       console.log("getCurrency - Done");
-//     });
-// };
+setInterval(() => {
+  getCurrency();
+}, INTERVAL_UPDATE);
 
-// getCurrency();
-
-// setInterval(() => {
-//   getCurrency();
-// }, INTERVAL);
-
-bcseCurrency.getData()
-  .then((data) => {
-    // console.log(toText(data))
-    console.log(toTextOfValues(data, []))
-  });
+// bcseCurrency.getData()
+//   .then((data) => {
+//     console.log(data)
+//     console.log()
+//     // let res = toTextOfValues(data, []);
+//     // lastDate = res;
+//     // bot.tgBot(res);
+//   });

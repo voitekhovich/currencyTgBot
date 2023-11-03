@@ -5,6 +5,12 @@
 //   { name: 'CNY', value: 4.3629, inf: 0.0016 }
 // ]
 
+const moment = require("moment");
+
+const getDateTime = () => {
+  return moment().format("HH:mm DD.MM");
+};
+
 const getText = (obj) => {
   return `${obj.name} ${obj.value} ${obj.inf > 0 ? "↑" : "↓"}`;
 };
@@ -14,8 +20,8 @@ const toText = (dataArray) => {
   return result.join(" ");
 };
 
-const toTextOfValues = (dataArray, values = []) => {
-  if (!!values) return toText(dataArray);
+const toTextOfValues = (dataArray, values = [], time = false) => {
+  if (!values) return toText(dataArray);
 
   const result = [];
 
@@ -27,6 +33,10 @@ const toTextOfValues = (dataArray, values = []) => {
       console.log("error");
       // continue
     }
+  }
+
+  if (time) {
+    return `${result.join(" ")} | ${getDateTime()}`;
   }
 
   return result.join(" ");

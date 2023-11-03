@@ -31,7 +31,7 @@ bot.on("polling_error", (error) => {
 
 bot.onText(/\/start/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
-    parse_mode: "HTML",
+    // parse_mode: "HTML",
     disable_notification: true,
   });
 
@@ -51,8 +51,6 @@ bot.onText(/\/start/, async (msg) => {
 });
 
 bot.onText(/\сгус/, async (msg) => {
-  // const imageStream = fs.createReadStream("./goose.jpg");
-  // await bot.sendPhoto(msg.chat.id, imageStream);
   const imageBuffer = fs.readFileSync("./goose.jpg");
   await bot.sendPhoto(msg.chat.id, imageBuffer);
 });
@@ -60,19 +58,25 @@ bot.onText(/\сгус/, async (msg) => {
 bot.onText(/\/info/, async (msg) => {
   text = constants.infoBotText;
   bot.sendMessage(msg.chat.id, text, {
-    parse_mode: "HTML",
+    // parse_mode: "HTML",
   });
 });
 
 const messageUpdate = () => {
   console.log("Update messages...");
+  // console.log(messagesID);
   for (let item of messagesID) {
+    // console.log(item);
     const [chat_id, message_id] = item;
 
-    bot.editMessageText(lastDate, {
-      chat_id,
-      message_id,
-      parse_mode: "HTML",
-    });
+    try {
+      bot.editMessageText(lastDate, {
+        chat_id,
+        message_id,
+        // parse_mode: "HTML",
+      });
+    } catch (err) {
+      console.log("Не обновилось");
+    }
   }
 };
