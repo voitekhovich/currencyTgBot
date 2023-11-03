@@ -1,6 +1,6 @@
 const jsdom = require("jsdom");
 const moment = require("moment");
-const constants = require("./constants.js");
+const constants = require("../utils/constants.js");
 const MYFIN_SRC = constants.MYFIN_SRC;
 
 const { JSDOM } = jsdom;

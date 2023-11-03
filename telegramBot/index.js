@@ -1,7 +1,8 @@
-const TelegramBot = require("node-telegram-bot-api");
-const constants = require("./constants.js");
-const files = require("./files.js");
 const fs = require("fs");
+const TelegramBot = require("node-telegram-bot-api");
+
+const constants = require("../utils/constants.js");
+const files = require("../utils/files.js");
 
 const API_KEY_BOT = process.env.API_KEY_BOT;
 
@@ -31,6 +32,7 @@ bot.on("polling_error", (error) => {
 bot.onText(/\/start/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
     parse_mode: "HTML",
+    disable_notification: true,
   });
 
   bot.pinChatMessage(res.chat.id, res.message_id);
@@ -48,7 +50,7 @@ bot.onText(/\/start/, async (msg) => {
   files.saveMapToFile(messagesID);
 });
 
-bot.onText(/гус/, async (msg) => {
+bot.onText(/\сгус/, async (msg) => {
   // const imageStream = fs.createReadStream("./goose.jpg");
   // await bot.sendPhoto(msg.chat.id, imageStream);
   const imageBuffer = fs.readFileSync("./goose.jpg");
