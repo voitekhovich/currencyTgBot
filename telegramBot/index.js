@@ -51,7 +51,7 @@ bot.onText(/\/start/, async (msg) => {
 });
 
 bot.on('text', async (msg) => {
-  if (msg.text.toLowerCase == 'нет') {
+  if (msg.text.toLowerCase() == 'нет') {
     try {
       const imageBuffer = fs.readFileSync("./images/goose-pdr.jpg");
       await bot.sendPhoto(msg.chat.id, imageBuffer);
