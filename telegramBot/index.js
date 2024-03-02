@@ -18,7 +18,7 @@ console.log("Start bot...");
 
 const bot = new TelegramBot(API_KEY_BOT, {
   polling: {
-    interval: 500,
+    interval: 750,
     autoStart: true,
   },
 });
@@ -51,7 +51,10 @@ bot.onText(/\/start/, async (msg) => {
 });
 
 bot.on('text', async (msg) => {
-  if (msg.text.toLowerCase() == 'нет') {
+  
+  var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
+
+  if (pattern.test(msg.text)) {
     try {
       const imageBuffer = fs.readFileSync("./images/goose-pdr.jpg");
       await bot.sendPhoto(msg.chat.id, imageBuffer);

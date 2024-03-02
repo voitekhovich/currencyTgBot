@@ -3,7 +3,7 @@ exports.BCSE_API_SRC = "https://www.bcse.by/charts/index/currency";
 exports.BCSE_SRC = "https://www.bcse.by/";
 
 exports.DATABASE_FILE_NAME = "./msgdata.json";
-exports.INTERVAL_UPDATE = 60000; // 600000 - 10 minutes .. 900000 - 15 minutes
+exports.INTERVAL_UPDATE = 90000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
 exports.commands = [
   {
