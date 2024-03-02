@@ -50,9 +50,15 @@ bot.onText(/\/start/, async (msg) => {
   files.saveMapToFile(messagesID);
 });
 
-bot.onText(/\сгус/, async (msg) => {
-  const imageBuffer = fs.readFileSync("./goose.jpg");
-  await bot.sendPhoto(msg.chat.id, imageBuffer);
+bot.on('text', async (msg) => {
+  if (msg.text.toLowerCase == 'нет') {
+    try {
+      const imageBuffer = fs.readFileSync("./images/goose-pdr.jpg");
+      await bot.sendPhoto(msg.chat.id, imageBuffer);
+    } catch(e) {
+      console.log('err load image: ' + e);
+    }
+  }
 });
 
 bot.onText(/\/info/, async (msg) => {
