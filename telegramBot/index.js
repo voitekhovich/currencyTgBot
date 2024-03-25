@@ -52,12 +52,17 @@ bot.onText(/\/start/, async (msg) => {
 
 bot.on('text', async (msg) => {
   
-  var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
+  // var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
+  var pattern = /^\s*[hн]\s?[eе]\s?[tт][ьъ]?\s*[!:=()Dd]*\s*$/i;
 
   if (pattern.test(msg.text)) {
     try {
-      const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
-      await bot.sendPhoto(msg.chat.id, imageBuffer);
+
+      await setInterval(() => {
+        const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
+        bot.sendPhoto(msg.chat.id, imageBuffer);
+      }, 3000);
+
     } catch(e) {
       console.log('err load image: ' + e);
     }
