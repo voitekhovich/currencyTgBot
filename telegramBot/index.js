@@ -56,7 +56,7 @@ bot.on('text', async (msg) => {
 
   if (pattern.test(msg.text)) {
     try {
-      const imageBuffer = fs.readFileSync("./images/goose-pdr.jpg");
+      const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
       await bot.sendPhoto(msg.chat.id, imageBuffer);
     } catch(e) {
       console.log('err load image: ' + e);
