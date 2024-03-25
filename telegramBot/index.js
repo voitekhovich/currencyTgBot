@@ -58,10 +58,10 @@ bot.on('text', async (msg) => {
   if (pattern.test(msg.text)) {
     try {
 
-      await setInterval(() => {
+      await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
         bot.sendPhoto(msg.chat.id, imageBuffer);
-      }, 3000);
+      }, 2000);
 
     } catch(e) {
       console.log('err load image: ' + e);
