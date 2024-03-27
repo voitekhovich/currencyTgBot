@@ -53,7 +53,9 @@ bot.onText(/\/start/, async (msg) => {
 bot.on('text', async (msg) => {
   
   // var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
-  var pattern = /^\s*[hnн]\s?[eе]\s?[tт][ьъ]?\s*[!:=()Dd]*\s*$/i;
+  var pattern = /^\s*[hnн]\s?[eе]\s?[tт][ьъ]?\s*[.,!:=()Dd]*\s*$/i;
+  var pattern2 = /^\s*[д]\s?[аa]\s*[.,!:=()Dd]*\s*$/i;
+  var pattern3 = /семь[я|ёй|е]|семейный/i;
 
   if (pattern.test(msg.text)) {
     try {
@@ -61,12 +63,34 @@ bot.on('text', async (msg) => {
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
         bot.sendPhoto(msg.chat.id, imageBuffer);
-      }, 1000);
+      }, 1200);
 
     } catch(e) {
       console.log('err load image: ' + e);
     }
-  }
+  } else if (pattern2.test(msg.text)) {
+    try {
+
+      await setTimeout(() => {
+        const imageBuffer = fs.readFileSync("./images/pizda.png");
+        bot.sendPhoto(msg.chat.id, imageBuffer);
+      }, 1200);
+
+    } catch(e) {
+      console.log('err load image: ' + e);
+    }
+  } else if (pattern3.test(msg.text)) {
+    try {
+
+      await setTimeout(() => {
+        const imageBuffer = fs.readFileSync("./images/family.png");
+        bot.sendPhoto(msg.chat.id, imageBuffer);
+      }, 1200);
+
+    } catch(e) {
+      console.log('err load image: ' + e);
+    }
+  } 
 });
 
 bot.onText(/\/info/, async (msg) => {
