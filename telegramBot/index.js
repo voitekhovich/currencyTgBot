@@ -29,7 +29,7 @@ bot.on("polling_error", (error) => {
   console.log(error.code);
 });
 
-bot.onText(/\/start/, async (msg) => {
+bot.onText(/^\/add$/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
     // parse_mode: "HTML",
     disable_notification: true,
@@ -50,6 +50,13 @@ bot.onText(/\/start/, async (msg) => {
   files.saveMapToFile(messagesID);
 });
 
+bot.onText(/^\/now$/, async (msg) => {
+  const res = await bot.sendMessage(msg.chat.id, lastDate, {
+    // parse_mode: "HTML",
+    disable_notification: true,
+  });
+});
+
 bot.on('text', async (msg) => {
   
   // var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
@@ -62,7 +69,8 @@ bot.on('text', async (msg) => {
 
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
-        bot.sendPhoto(msg.chat.id, imageBuffer);
+        // bot.sendPhoto(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer);
       }, 1200);
 
     } catch(e) {
@@ -73,7 +81,8 @@ bot.on('text', async (msg) => {
 
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/pizda.png");
-        bot.sendPhoto(msg.chat.id, imageBuffer);
+        // bot.sendPhoto(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer);
       }, 1200);
 
     } catch(e) {
@@ -84,7 +93,8 @@ bot.on('text', async (msg) => {
 
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/family.png");
-        bot.sendPhoto(msg.chat.id, imageBuffer);
+        // bot.sendPhoto(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer);
       }, 1200);
 
     } catch(e) {
@@ -93,12 +103,12 @@ bot.on('text', async (msg) => {
   } 
 });
 
-bot.onText(/\/info/, async (msg) => {
-  text = constants.infoBotText;
-  bot.sendMessage(msg.chat.id, text, {
-    // parse_mode: "HTML",
-  });
-});
+// bot.onText(/^\/info$/, async (msg) => {
+//   text = constants.infoBotText;
+//   bot.sendMessage(msg.chat.id, text, {
+//     // parse_mode: "HTML",
+//   });
+// });
 
 const messageUpdate = () => {
   console.log("Update messages...");

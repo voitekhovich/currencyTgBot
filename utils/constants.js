@@ -6,14 +6,22 @@ exports.DATABASE_FILE_NAME = "./msgdata.json";
 exports.INTERVAL_UPDATE = 90000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
 exports.commands = [
+  // {
+  //   command: "start",
+  //   description: "Запустить бота",
+  // },
   {
-    command: "start",
-    description: "Запустить бота",
+    command: "now",
+    description: "Текущий курс",
   },
   {
-    command: "info",
-    description: "О боте",
+    command: "add",
+    description: "Закрепить курс",
   },
+  // {
+  //   command: "info",
+  //   description: "О боте",
+  // },
   // {
   //   command: "currency",
   //   description: "Обновить курсы валют",
