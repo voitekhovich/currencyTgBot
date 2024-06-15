@@ -5,6 +5,7 @@ const constants = require("../utils/constants.js");
 const files = require("../utils/files.js");
 
 const API_KEY_BOT = process.env.API_KEY_BOT;
+const YA_300_TOKEN = process.env.YA_300_TOKEN;
 
 let lastDate = "";
 const messagesID = files.readMapFromFile();
@@ -56,6 +57,51 @@ bot.onText(/^\/now$/, async (msg) => {
     disable_notification: true,
   });
 });
+
+// ПИШЕМ ТЕСТОВОГО БОТА ДЛЯ СУММАРИЗАЦИИ
+// =====================================
+
+bot.onText(/^\/test$/, async (msg) => {
+  const article_url = 'https://habr.com/ru/news/729422/';
+  const endpoint = 'https://300.ya.ru/api/sharing-url';
+  const token = YA_300_TOKEN;
+
+  fetch(endpoint, article_url)
+    .then(function (response) {
+      response.text().then(function (text) {
+        poemDisplay.textContent = text;
+      });
+    });
+
+  fetch(endpoint, {
+      method: 'POST',
+      headers: {'Authorization': `OAuth ${token}`},
+      // json: {
+      //   'article_url': article_url
+      // },
+      body: JSON.stringify({
+        'article_url': article_url
+        // name: userData.name,
+        // about: userData.about
+      })
+    })
+    .then(res => {
+      res.ok? res.json() : Promise.reject(res.status)
+    })
+    .then(json => {
+      bot.sendMessage(msg.chat.id, json.sharing_url, {
+        disable_notification: true,
+      });
+    })
+    .catch(res_status => {
+      bot.sendMessage(msg.chat.id, res_status, {
+        disable_notification: true,
+      });
+    })
+
+});
+
+// =====================================
 
 bot.on('text', async (msg) => {
   
