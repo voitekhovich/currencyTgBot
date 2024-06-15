@@ -81,9 +81,10 @@ bot.onText(/^\/test$/, async (msg) => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data)
+      console.log(data);
+      console.log(data.sharing_url);
 
-      JSDOM.fromURL(BCSE_SRC)
+      JSDOM.fromURL(data.sharing_url)
         .then((dom) => dom.window.document.querySelector(".summary-text"))
         .then((data) => {
           console.log(data);
