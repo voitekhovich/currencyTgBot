@@ -82,20 +82,25 @@ bot.onText(/^\/test$/, async (msg) => {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      console.log(data.sharing_url);
 
       JSDOM.fromURL(data.sharing_url)
-        .then((dom) => dom.window.document.querySelector(".summary-text"))
+        .then((dom) => {
+          const header = dom.window.document.querySelector(".summary-text").firstElementChild;
+          const content = dom.window.document.querySelector(".summary-text").lastElementChild;
+          return `**${header}**\n${content}`
+        })
         .then((data) => {
           console.log(data);
+          bot.sendMessage(msg.chat.id, data, {
+            disable_notification: true,
+            parseMode: 'Markdown'
+          });
         })
         .catch((err) => {
           console.log(err);
         });
 
-      // bot.sendMessage(msg.chat.id, data, {
-      //   disable_notification: true,
-      // });
+      
     })
     // .then(res => {
     //   res.ok? res.json() : Promise.reject(res.status)
