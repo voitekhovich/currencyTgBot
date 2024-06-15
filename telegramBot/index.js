@@ -87,7 +87,7 @@ bot.onText(/^\/test$/, async (msg) => {
         .then((dom) => {
           const header = dom.window.document.querySelector(".summary-text").firstElementChild.textContent;
           const content = dom.window.document.querySelector(".summary-text").lastElementChild.textContent;
-          return `\*${header}\*\n${content}`;
+          return '\*' + header + '\*\n' + content;
         })
         .then((data) => {
           console.log(data);
