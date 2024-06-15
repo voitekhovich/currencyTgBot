@@ -87,13 +87,13 @@ bot.onText(/^\/test$/, async (msg) => {
         .then((dom) => {
           const header = dom.window.document.querySelector(".summary-text").firstElementChild.textContent;
           const content = dom.window.document.querySelector(".summary-text").lastElementChild.textContent;
-          return '\*' + header + '\*\n' + content;
+          return `<b>${header}</b>\n${content}`;
         })
         .then((data) => {
           console.log(data);
           bot.sendMessage(msg.chat.id, data, {
             disable_notification: true,
-            parse_mode: "MarkdownV2"
+            parse_mode: "HTML"
           });
         })
         .catch((err) => {
