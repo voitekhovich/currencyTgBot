@@ -66,23 +66,11 @@ bot.onText(/^\/test$/, async (msg) => {
   const endpoint = 'https://300.ya.ru/api/sharing-url';
   const token = YA_300_TOKEN;
 
-  fetch(endpoint, article_url)
-    .then(function (response) {
-      response.text().then(function (text) {
-        poemDisplay.textContent = text;
-      });
-    });
-
   fetch(endpoint, {
       method: 'POST',
       headers: {'Authorization': `OAuth ${token}`},
-      // json: {
-      //   'article_url': article_url
-      // },
       body: JSON.stringify({
         'article_url': article_url
-        // name: userData.name,
-        // about: userData.about
       })
     })
     .then(res => {
