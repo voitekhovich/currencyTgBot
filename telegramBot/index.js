@@ -73,16 +73,22 @@ bot.onText(/^\/test$/, async (msg) => {
         'article_url': article_url
       })
     })
-    .then(res => {
-      res.ok? res.json() : Promise.reject(res.status)
-    })
-    .then(json => {
-      bot.sendMessage(msg.chat.id, json.sharing_url, {
+    .then(response => response.json())
+    .then(data => {
+      bot.sendMessage(msg.chat.id, data, {
         disable_notification: true,
       });
     })
-    .catch(res_status => {
-      bot.sendMessage(msg.chat.id, res_status, {
+    // .then(res => {
+    //   res.ok? res.json() : Promise.reject(res.status)
+    // })
+    // .then(json => {
+    //   bot.sendMessage(msg.chat.id, json.sharing_url, {
+    //     disable_notification: true,
+    //   });
+    // })
+    .catch(res => {
+      bot.sendMessage(msg.chat.id, res, {
         disable_notification: true,
       });
     })
