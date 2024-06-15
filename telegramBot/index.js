@@ -85,9 +85,9 @@ bot.onText(/^\/test$/, async (msg) => {
 
       JSDOM.fromURL(data.sharing_url)
         .then((dom) => {
-          const header = dom.window.document.querySelector(".summary-text").firstElementChild;
-          const content = dom.window.document.querySelector(".summary-text").lastElementChild;
-          return `**${header}**\n${content}`
+          const header = dom.window.document.querySelector(".summary-text").firstElementChild.textContent;
+          const content = dom.window.document.querySelector(".summary-text").lastElementChild.textContent;
+          return `<b>${header}</b>\n${content}`;
         })
         .then((data) => {
           console.log(data);
