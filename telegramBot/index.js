@@ -69,6 +69,10 @@ bot.onText(/^\/test$/, async (msg) => {
   fetch(endpoint, {
       method: 'POST',
       headers: {'Authorization': `OAuth ${token}`},
+      json: {
+        'article_url': article_url
+      },
+  
       body: JSON.stringify({
         'article_url': article_url
       })
