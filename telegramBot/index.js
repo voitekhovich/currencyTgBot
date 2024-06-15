@@ -75,9 +75,10 @@ bot.onText(/^\/test$/, async (msg) => {
     })
     .then(response => response.json())
     .then(data => {
-      bot.sendMessage(msg.chat.id, data, {
-        disable_notification: true,
-      });
+      console.log(data)
+      // bot.sendMessage(msg.chat.id, data, {
+      //   disable_notification: true,
+      // });
     })
     // .then(res => {
     //   res.ok? res.json() : Promise.reject(res.status)
@@ -88,9 +89,10 @@ bot.onText(/^\/test$/, async (msg) => {
     //   });
     // })
     .catch(res => {
-      bot.sendMessage(msg.chat.id, res, {
-        disable_notification: true,
-      });
+      console.log(res)
+      // bot.sendMessage(msg.chat.id, res, {
+      //   disable_notification: true,
+      // });
     })
 
 });
