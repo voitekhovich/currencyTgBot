@@ -2,6 +2,8 @@ exports.MYFIN_SRC = "https://admin.myfin.by/outer/informer/minsk/full";
 exports.BCSE_API_SRC = "https://www.bcse.by/charts/index/currency";
 exports.BCSE_SRC = "https://www.bcse.by/";
 
+exports.YA_300_API = 'https://300.ya.ru/api/sharing-url';
+
 exports.DATABASE_FILE_NAME = "./msgdata.json";
 exports.INTERVAL_UPDATE = 90000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
@@ -18,14 +20,15 @@ exports.commands = [
     command: "add",
     description: "Закрепить курс",
   },
+  {
+    command: "summary",
+    description: "Краткий пересказ по URL",
+  },
   // {
   //   command: "info",
   //   description: "О боте",
   // },
-  // {
-  //   command: "currency",
-  //   description: "Обновить курсы валют",
-  // },
+  
 ];
 
 exports.infoBotText = `<b><code>Информер курсов валют</code> beta</b>\nИнформер отображает курс валют с Белорусской валютно-фондовой биржи.

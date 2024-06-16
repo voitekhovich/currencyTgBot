@@ -1,8 +1,11 @@
 const fs = require("fs");
 const TelegramBot = require("node-telegram-bot-api");
 
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const func = require("./functions");
+const yapi = require("../utils/yapi");
+
+// const jsdom = require("jsdom");
+// const { JSDOM } = jsdom;
 
 const constants = require("../utils/constants.js");
 const files = require("../utils/files.js");
@@ -11,6 +14,11 @@ const API_KEY_BOT = process.env.API_KEY_BOT;
 const YA_300_TOKEN = process.env.YA_300_TOKEN;
 
 let lastDate = "";
+let last_url = "";
+const lastMsg = {
+  url: '',
+  mesgId: ''
+};
 const messagesID = files.readMapFromFile();
 
 exports.tgBot = (text) => {
@@ -32,6 +40,14 @@ bot.setMyCommands(constants.commands);
 bot.on("polling_error", (error) => {
   console.log(error.code);
 });
+
+const sendMsg = (text, msg, format, msgId) => {
+  bot.sendMessage(msg.chat.id, text, {
+    disable_notification: true,
+    ...(!!format && { parse_mode: "HTML" }),
+    ...(!!msgId && {reply_to_message_id: msgId})
+  });
+}
 
 bot.onText(/^\/add$/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
@@ -61,74 +77,47 @@ bot.onText(/^\/now$/, async (msg) => {
   });
 });
 
-// ПИШЕМ ТЕСТОВОГО БОТА ДЛЯ СУММАРИЗАЦИИ
-// =====================================
 
-bot.onText(/^\/test$/, async (msg) => {
-  const article_url = 'https://habr.com/ru/news/729422/';
-  const endpoint = 'https://300.ya.ru/api/sharing-url';
-  const token = YA_300_TOKEN;
+// Слушаем каждое сообщение и запоминаем из него ссылку
+bot.on('text', async msg => {
+  const url = await func.getUrlFromMessage(msg.text);
+  if (url != null) {
+    // await (last_url = url);
+    lastMsg.mesgId = msg.message_id;
+    lastMsg.url = url;
+  }
+  console.log(`last_url: ${last_url}`);
+})
 
-  fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Authorization': `OAuth ${token}`,
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify({
-        'article_url': article_url
-      })
+bot.onText(/^\/summary$/, async (msg) => {
+
+  // if (last_url === '') return sendMsg('Отправьте ссылку в чат', msg);
+  if (lastMsg.url === '') return sendMsg('Отправьте ссылку на статью в чат', msg);
+
+  // const last_url = 'https://habr.com/ru/articles/822121';
+
+  yapi.request(YA_300_TOKEN, lastMsg.url)
+    .then(json => func.getDataFromDOM(json.sharing_url))
+    .then(data => sendMsg(data, msg, true, lastMsg.mesgId))
+    .then(() => {
+      lastMsg.mesgId = '';
+      lastMsg.url = ''
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-
-      JSDOM.fromURL(data.sharing_url)
-        .then((dom) => {
-          const header = dom.window.document.querySelector(".summary-text").firstElementChild.textContent;
-          const content = dom.window.document.querySelector(".summary-text").lastElementChild.textContent;
-          return `<b>${header}</b>\n${content}`;
-        })
-        .then((data) => {
-          console.log(data);
-          bot.sendMessage(msg.chat.id, data, {
-            disable_notification: true,
-            parse_mode: "HTML"
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      
-    })
-    // .then(res => {
-    //   res.ok? res.json() : Promise.reject(res.status)
-    // })
-    // .then(json => {
-    //   bot.sendMessage(msg.chat.id, json.sharing_url, {
-    //     disable_notification: true,
-    //   });
-    // })
-    .catch(res => {
-      console.log(res)
-      // bot.sendMessage(msg.chat.id, res, {
-      //   disable_notification: true,
-      // });
-    })
+    .catch(err => {
+      console.log(err)
+      sendMsg(`Извините, но что-то пошло не так...`, msg);
+    });
 
 });
 
-// =====================================
-
 bot.on('text', async (msg) => {
-  
+
   // var pattern = /^\s*нет[ьъ]?\s*[!:=()Dd]*\s*$/i;
   var pattern = /^\s*[hnн]\s?[eе]\s?[tт][ьъ]?\s*[.,!:=()Dd]*\s*$/i;
   var pattern2 = /^\s*[д]\s?[аa]\s*[.,!:=()Dd]*\s*$/i;
   var pattern3 = /семь[я|ёй|е]|семейный/i;
   var pattern4 = /рофлю/i;
-  
+
   var timer = 1000;
 
   if (pattern.test(msg.text)) {
@@ -140,7 +129,7 @@ bot.on('text', async (msg) => {
         bot.sendSticker(msg.chat.id, imageBuffer);
       }, timer);
 
-    } catch(e) {
+    } catch (e) {
       console.log('err load image: ' + e);
     }
   } else if (pattern2.test(msg.text)) {
@@ -152,7 +141,7 @@ bot.on('text', async (msg) => {
         bot.sendSticker(msg.chat.id, imageBuffer);
       }, timer);
 
-    } catch(e) {
+    } catch (e) {
       console.log('err load image: ' + e);
     }
   } else if (pattern3.test(msg.text)) {
@@ -164,10 +153,10 @@ bot.on('text', async (msg) => {
         bot.sendSticker(msg.chat.id, imageBuffer);
       }, timer);
 
-    } catch(e) {
+    } catch (e) {
       console.log('err load image: ' + e);
     }
-  } 
+  }
   else if (pattern4.test(msg.text)) {
     try {
 
@@ -177,10 +166,10 @@ bot.on('text', async (msg) => {
         bot.sendSticker(msg.chat.id, imageBuffer);
       }, timer);
 
-    } catch(e) {
+    } catch (e) {
       console.log('err load image: ' + e);
     }
-  } 
+  }
 });
 
 // bot.onText(/^\/info$/, async (msg) => {

@@ -25,7 +25,7 @@ const getCurrency = () => {
     });
 };
 
-getCurrency();
+//getCurrency();
 
 setInterval(() => {
   getCurrency();
