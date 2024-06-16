@@ -41,13 +41,23 @@ bot.on("polling_error", (error) => {
   console.log(error.code);
 });
 
-const sendMsg = (text, msg, format, msgId) => {
-  bot.sendMessage(msg.chat.id, text, {
+const sendMsg = async (text, msg, format, msgId) => {
+  return await bot.sendMessage(msg.chat.id, text, {
     disable_notification: true,
     ...(!!format && { parse_mode: "HTML" }),
     ...(!!msgId && {reply_to_message_id: msgId})
   });
 }
+
+const editMsg = async (text, msgWait, format, msgId) => {
+  await bot.editMessageText(text, {
+    chat_id: msgWait.chat.id,
+    message_id: msgWait.message_id,
+    ...(!!format && { parse_mode: "HTML" }),
+    ...(!!msgId && {reply_to_message_id: msgId})
+  });
+}
+
 
 bot.onText(/^\/add$/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
@@ -82,11 +92,9 @@ bot.onText(/^\/now$/, async (msg) => {
 bot.on('text', async msg => {
   const url = await func.getUrlFromMessage(msg.text);
   if (url != null) {
-    // await (last_url = url);
     lastMsg.mesgId = msg.message_id;
     lastMsg.url = url;
   }
-  console.log(`last_url: ${last_url}`);
 })
 
 bot.onText(/^\/summary$/, async (msg) => {
@@ -96,16 +104,24 @@ bot.onText(/^\/summary$/, async (msg) => {
 
   // const last_url = 'https://habr.com/ru/articles/822121';
 
+  const msgWait = await sendMsg('Отправляю ссылку ФСБ-шникам...', msg, true, lastMsg.mesgId)
+  // console.log(msgWait);
+
   yapi.request(YA_300_TOKEN, lastMsg.url)
+    .then(json => {
+      editMsg('Ответ получен, осталось обработать...', msgWait)
+      return json
+    })
     .then(json => func.getDataFromDOM(json.sharing_url))
-    .then(data => sendMsg(data, msg, true, lastMsg.mesgId))
+    .then(data => editMsg(data, msgWait, true))
     .then(() => {
       lastMsg.mesgId = '';
       lastMsg.url = ''
     })
     .catch(err => {
       console.log(err)
-      sendMsg(`Извините, но что-то пошло не так...`, msg);
+      // sendMsg(`Извините, но что-то пошло не так...`, msg);
+      editMsg('ФСБ-шники не ответили :(', msgWait)
     });
 
 });
