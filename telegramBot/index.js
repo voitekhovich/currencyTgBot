@@ -4,9 +4,6 @@ const TelegramBot = require("node-telegram-bot-api");
 const func = require("./functions");
 const yapi = require("../utils/yapi");
 
-// const jsdom = require("jsdom");
-// const { JSDOM } = jsdom;
-
 const constants = require("../utils/constants.js");
 const files = require("../utils/files.js");
 
@@ -14,7 +11,6 @@ const API_KEY_BOT = process.env.API_KEY_BOT;
 const YA_300_TOKEN = process.env.YA_300_TOKEN;
 
 let lastDate = "";
-let last_url = "";
 const lastMsg = {
   url: '',
   mesgId: ''
@@ -59,7 +55,7 @@ const editMsg = async (text, msgWait, format, msgId) => {
 }
 
 
-bot.onText(/^\/add$/, async (msg) => {
+bot.onText(/^\/add(@aloy_vbot)?$/, async (msg) => {
   const res = await bot.sendMessage(msg.chat.id, lastDate, {
     // parse_mode: "HTML",
     disable_notification: true,
@@ -80,8 +76,9 @@ bot.onText(/^\/add$/, async (msg) => {
   files.saveMapToFile(messagesID);
 });
 
-bot.onText(/^\/now$/, async (msg) => {
-  const res = await bot.sendMessage(msg.chat.id, lastDate, {
+bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
+    if (lastDate === '') return console.log('курсы ещё не получены');
+    const res = await bot.sendMessage(msg.chat.id, lastDate, {
     // parse_mode: "HTML",
     disable_notification: true,
   });
@@ -97,10 +94,10 @@ bot.on('text', async msg => {
   }
 })
 
-bot.onText(/^\/summary$/, async (msg) => {
+bot.onText(/^\/summary(@aloy_vbot)?$/, async (msg) => {
 
   // if (last_url === '') return sendMsg('Отправьте ссылку в чат', msg);
-  if (lastMsg.url === '') return sendMsg('Отправьте ссылку на статью в чат', msg);
+  if (lastMsg.url === '') return sendMsg('Отправьте ссылку на статью в чат и повторите запрос', msg);
 
   // const last_url = 'https://habr.com/ru/articles/822121';
 
@@ -122,8 +119,19 @@ bot.onText(/^\/summary$/, async (msg) => {
       console.log(err)
       // sendMsg(`Извините, но что-то пошло не так...`, msg);
       editMsg('ФСБ-шники не ответили :(', msgWait)
-    });
+    })
+    // .finnaly(() => {
+    //   ????????
+    // })
 
+});
+
+bot.onText(/^\/random(@aloy_vbot)?$/, async (msg) => {
+  func.getRandomImage()
+    .then(imgUrl => {
+      console.log(imgUrl);
+      bot.sendPhoto(msg.chat.id, imgUrl);
+    })
 });
 
 bot.on('text', async (msg) => {

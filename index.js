@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+// loh
 const { DATABASE_FILE_NAME, INTERVAL_UPDATE } = require("./utils/constants");
 const { readFile } = require("./utils/files");
 const bot = require("./telegramBot/index.js");
@@ -25,7 +25,7 @@ const getCurrency = () => {
     });
 };
 
-//getCurrency();
+getCurrency();
 
 setInterval(() => {
   getCurrency();

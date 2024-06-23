@@ -4,6 +4,8 @@ exports.BCSE_SRC = "https://www.bcse.by/";
 
 exports.YA_300_API = 'https://300.ya.ru/api/sharing-url';
 
+// exports.BOT_NAME = '@aloy_vbot';
+
 exports.DATABASE_FILE_NAME = "./msgdata.json";
 exports.INTERVAL_UPDATE = 90000; // 600000 - 10 minutes .. 900000 - 15 minutes
 
@@ -19,6 +21,10 @@ exports.commands = [
   {
     command: "add",
     description: "Закрепить курс",
+  },
+  {
+    command: "random",
+    description: "Случайная Аниме картинка",
   },
   {
     command: "summary",
