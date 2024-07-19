@@ -3,7 +3,7 @@ const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 const API_URL = 'https://llm.api.cloud.yandex.net/foundationModels/v1/imageGenerationAsync';
 const GET_IMG_URL = 'https://llm.api.cloud.yandex.net:443/operations/';
 
-async function askAi(text) {
+async function getIDart(text) {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
@@ -33,7 +33,7 @@ async function askAi(text) {
   return json.id;
 }
 
-async function askAiByID(id) {
+async function getImgArt(id) {
   const response = await fetch(`${GET_IMG_URL}${id}`, {
     method: 'GET',
     headers: {
@@ -55,12 +55,12 @@ async function askAiByID(id) {
 
 }
 
-async function getArt(text) {
+// async function getArt(text) {
 
-  const id = await askAi(text);
-  return askAiByID(id)
-    .then(result => result);
+//   const id = await askAi(text);
+//   return askAiByID(id)
+//     .then(result => result);
+// };
 
-};
-
-exports.getArt = getArt;
+module.exports = {getIDart, getImgArt}
+// exports.getArt = getArt;

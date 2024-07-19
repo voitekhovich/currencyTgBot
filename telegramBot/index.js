@@ -4,7 +4,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const func = require("./functions");
 const yapi = require("../utils/yapi");
 const { askAi } = require("../utils/yagpt");
-const { getArt } = require("../utils/yaart");
+const { getIDart, getImgArt } = require("../utils/yaart");
 
 const openaiAPI = require("../utils/openai_api");
 
@@ -106,11 +106,28 @@ bot.on('text', async msg => {
 bot.on('text', async msg => {
   try {
     if (msg.text.toLowerCase().startsWith('нарисуй')) {
-        const result = await getArt(msg.text.slice(4));
-        // console.log(result);
-        await bot.sendPhoto(msg.chat.id, result, {
-          disable_notification: true,
-        });
+    
+      getIDart(msg.text.slice(4))
+        .then(id => id)
+        .then(async id => {
+          const text = 'Рисую...';
+          const msgWait = await bot.sendMessage(msg.chat.id, text, {
+            disable_notification: true,
+          });
+          getImgArt(id)
+            .then(async image => {
+              await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
+              await bot.sendPhoto(msg.chat.id, image, {
+                    disable_notification: true,
+                  });
+            })
+        })
+      
+      // const result = await getArt(msg.text.slice(4));
+        
+      //   await bot.sendPhoto(msg.chat.id, result, {
+      //     disable_notification: true,
+      //   });
      }
   } catch(error) {
      console.log(error);
