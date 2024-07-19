@@ -50,7 +50,7 @@ async function getImgArt(id) {
     return imgbase;
   } else {
     await new Promise(resolve => setTimeout(resolve, 10000));
-    return askAiByID(id);
+    return getImgArt(id);
   }
 
 }
