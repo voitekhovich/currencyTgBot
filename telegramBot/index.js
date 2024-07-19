@@ -3,6 +3,10 @@ const TelegramBot = require("node-telegram-bot-api");
 
 const func = require("./functions");
 const yapi = require("../utils/yapi");
+const { askAi } = require("../utils/yagpt");
+const { getArt } = require("../utils/yaart");
+
+const openaiAPI = require("../utils/openai_api");
 
 const constants = require("../utils/constants.js");
 const files = require("../utils/files.js");
@@ -84,6 +88,34 @@ bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
   });
 });
 
+// YAGPT API
+bot.on('text', async msg => {
+  try {
+    if (msg.text.startsWith('gpt')) {
+        const result = await askAi(msg.text.slice(4));
+        await bot.sendMessage(msg.chat.id, result, {
+          disable_notification: true,
+        });
+     }
+  } catch(error) {
+     console.log(error);
+  }
+});
+
+// YAGPT ART
+bot.on('text', async msg => {
+  try {
+    if (msg.text.toLowerCase().startsWith('нарисуй')) {
+        const result = await getArt(msg.text.slice(4));
+        // console.log(result);
+        await bot.sendPhoto(msg.chat.id, result, {
+          disable_notification: true,
+        });
+     }
+  } catch(error) {
+     console.log(error);
+  }
+});
 
 // Слушаем каждое сообщение и запоминаем из него ссылку
 bot.on('text', async msg => {

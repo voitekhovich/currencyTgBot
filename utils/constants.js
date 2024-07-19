@@ -3,6 +3,7 @@ exports.BCSE_API_SRC = "https://www.bcse.by/charts/index/currency";
 exports.BCSE_SRC = "https://www.bcse.by/";
 
 exports.YA_300_API = 'https://300.ya.ru/api/sharing-url';
+exports.NEURO_API_ENDPOINT = 'https://eu.neuroapi.host/v1';
 
 // exports.BOT_NAME = '@aloy_vbot';
 
