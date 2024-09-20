@@ -45,7 +45,7 @@ const sendMsg = async (text, msg, format, msgId) => {
   return await bot.sendMessage(msg.chat.id, text, {
     disable_notification: true,
     ...(!!format && { parse_mode: "HTML" }),
-    ...(!!msgId && {reply_to_message_id: msgId})
+    ...(!!msgId && { reply_to_message_id: msgId })
   });
 }
 
@@ -54,7 +54,7 @@ const editMsg = async (text, msgWait, format, msgId) => {
     chat_id: msgWait.chat.id,
     message_id: msgWait.message_id,
     ...(!!format && { parse_mode: "HTML" }),
-    ...(!!msgId && {reply_to_message_id: msgId})
+    ...(!!msgId && { reply_to_message_id: msgId })
   });
 }
 
@@ -81,8 +81,8 @@ bot.onText(/^\/add(@aloy_vbot)?$/, async (msg) => {
 });
 
 bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
-    if (lastDate === '') return console.log('курсы ещё не получены');
-    const res = await bot.sendMessage(msg.chat.id, lastDate, {
+  if (lastDate === '') return console.log('курсы ещё не получены');
+  const res = await bot.sendMessage(msg.chat.id, lastDate, {
     // parse_mode: "HTML",
     disable_notification: true,
   });
@@ -92,13 +92,13 @@ bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
 bot.on('text', async msg => {
   try {
     if (msg.text.startsWith('gpt')) {
-        const result = await askAi(msg.text.slice(4));
-        await bot.sendMessage(msg.chat.id, result, {
-          disable_notification: true,
-        });
-     }
-  } catch(error) {
-     console.log(error);
+      const result = await askAi(msg.text.slice(4));
+      await bot.sendMessage(msg.chat.id, result, {
+        disable_notification: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -106,7 +106,7 @@ bot.on('text', async msg => {
 bot.on('text', async msg => {
   try {
     if (msg.text.toLowerCase().startsWith('нарисуй')) {
-    
+
       getIDart(msg.text.slice(4))
         .then(id => id)
         .then(async id => {
@@ -118,19 +118,18 @@ bot.on('text', async msg => {
             .then(async image => {
               await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
               await bot.sendPhoto(msg.chat.id, image, {
-                    disable_notification: true,
-                  });
+                disable_notification: true,
+              });
             })
         })
-      
-      // const result = await getArt(msg.text.slice(4));
-        
-      //   await bot.sendPhoto(msg.chat.id, result, {
-      //     disable_notification: true,
-      //   });
-     }
-  } catch(error) {
-     console.log(error);
+        .catch(async err => {
+          await bot.sendMessage(msg.chat.id, err, {
+            disable_notification: true,
+          })
+        })
+    }
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -169,9 +168,9 @@ bot.onText(/^\/summary(@aloy_vbot)?$/, async (msg) => {
       // sendMsg(`Извините, но что-то пошло не так...`, msg);
       editMsg('ФСБ-шники не ответили :(', msgWait)
     })
-    // .finnaly(() => {
-    //   ????????
-    // })
+  // .finnaly(() => {
+  //   ????????
+  // })
 
 });
 
@@ -190,8 +189,9 @@ bot.on('text', async (msg) => {
   var pattern2 = /^\s*[д]\s?[аa]\s*[.,!:=()Dd]*\s*$/i;
   var pattern3 = /семь[я|ёй|е]|семейный/i;
   var pattern4 = /рофлю/i;
+  var pattern5 = /блудный сын вернулся/i;
 
-  var timer = 1000;
+  var timer = 1100;
 
   if (pattern.test(msg.text)) {
     try {
@@ -199,7 +199,9 @@ bot.on('text', async (msg) => {
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/goose-pdr.png");
         // bot.sendPhoto(msg.chat.id, imageBuffer);
-        bot.sendSticker(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer, {
+          reply_to_message_id: msg.message_id
+      });
       }, timer);
 
     } catch (e) {
@@ -211,7 +213,9 @@ bot.on('text', async (msg) => {
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/pizda.png");
         // bot.sendPhoto(msg.chat.id, imageBuffer);
-        bot.sendSticker(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer, {
+          reply_to_message_id: msg.message_id
+      });
       }, timer);
 
     } catch (e) {
@@ -223,7 +227,9 @@ bot.on('text', async (msg) => {
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/family.png");
         // bot.sendPhoto(msg.chat.id, imageBuffer);
-        bot.sendSticker(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer, {
+          reply_to_message_id: msg.message_id
+      });
       }, timer);
 
     } catch (e) {
@@ -235,6 +241,21 @@ bot.on('text', async (msg) => {
 
       await setTimeout(() => {
         const imageBuffer = fs.readFileSync("./images/rofl.png");
+        // bot.sendPhoto(msg.chat.id, imageBuffer);
+        bot.sendSticker(msg.chat.id, imageBuffer, {
+          reply_to_message_id: msg.message_id
+      });
+      }, timer);
+
+    } catch (e) {
+      console.log('err load image: ' + e);
+    }
+  }
+  else if (pattern5.test(msg.text)) {
+    try {
+
+      await setTimeout(() => {
+        const imageBuffer = fs.readFileSync("./images/luntik.png");
         // bot.sendPhoto(msg.chat.id, imageBuffer);
         bot.sendSticker(msg.chat.id, imageBuffer);
       }, timer);

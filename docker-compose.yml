@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    command: ["node", "index.js"]
+    restart: unless-stopped
+    env_file:
+      - .env

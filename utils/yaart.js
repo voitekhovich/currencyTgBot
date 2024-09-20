@@ -30,7 +30,9 @@ async function getIDart(text) {
   });
 
   const json = await response.json();
-  return json.id;
+  if (json && json.id) return json.id
+  else if (json && json.error) return Promise.reject(json.message)
+  else return Promise.reject("Произошла ошибка")
 }
 
 async function getImgArt(id) {
@@ -43,7 +45,8 @@ async function getImgArt(id) {
   });
 
   const data = await response.json();
-  // console.log(data);
+
+  console.log(data);
 
   if (data && data.response) {
     var imgbase = Buffer.from(data.response.image, 'base64');
@@ -55,12 +58,4 @@ async function getImgArt(id) {
 
 }
 
-// async function getArt(text) {
-
-//   const id = await askAi(text);
-//   return askAiByID(id)
-//     .then(result => result);
-// };
-
 module.exports = {getIDart, getImgArt}
-// exports.getArt = getArt;
