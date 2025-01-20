@@ -27,7 +27,7 @@ exports.getDataFromDOM = (url) => {
 }
 
 exports.getRandomImage = () => {
-  return napi.request()
+  return nbestapi.request()
     .then(data => data)
     .catch((err) => {
       
