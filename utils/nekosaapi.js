@@ -5,12 +5,20 @@ exports.request = () => {
     method: 'GET',
   })
     .then((res) => {
-      if (res.ok) return res.json();
-      return Promise.reject(res.status);
+      if (!res.ok) { 
+        throw new Error(`Primary URL failed with status: ${res.status}`);
+      }
+      return res.json();
     })
-    .then(data => data.items[0].image_url)
+    .then((json) => {
+      if (json.items && json.items.length > 0) {
+      return json.items[0].image_url;
+      } else {
+        throw new Error("No items found in the primary response.");
+      }
+    })
     .catch(err => {
-      console.log('nekosapi error:/n' + err);
+      console.log('nekosapi ERROR:' + err);
       throw err;
     });
 };

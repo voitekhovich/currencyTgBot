@@ -23,7 +23,7 @@ const lastMsg = {
 
 exports.tgBot = (text) => {
   lastDate = text;
-  messageUpdate();
+  // messageUpdate();
 };
 
 console.log("Start tgBot...");
@@ -185,7 +185,7 @@ bot.onText(/^\/random(@aloy_vbot)?$/, async (msg) => {
     })
     .catch(err => {
       console.log(imgUrl);
-      bot.sendMsg('random error:\n' + err.split('\n')[0], msg, true);
+      bot.sendMsg('random error:' + err.split('\n')[0], msg, true);
     })
 });
 

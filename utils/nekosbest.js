@@ -10,7 +10,7 @@ exports.request = () => {
     })
     .then(data => data.results.url)
     .catch(err => {
-      console.log('nekosbest error:/n' + err);
+      console.log('nekosbest error:' + err);
       throw err;
     });
 };

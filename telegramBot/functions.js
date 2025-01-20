@@ -30,11 +30,12 @@ exports.getRandomImage = () => {
   return napi.request()
     .then(data => data)
     .catch((err) => {
+      
       return nbestapi.request()
       .then(data => data)
     })
     .catch(err => {
-      log('getRandomImage error:\n' + err)
+      log('getRandomImage error:' + err)
       throw err;
     });
 };
