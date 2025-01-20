@@ -10,6 +10,7 @@ exports.request = () => {
     })
     .then(data => data.items[0].image_url)
     .catch(err => {
+      console.log('nekosapi error:/n' + err);
       throw err;
     });
 };

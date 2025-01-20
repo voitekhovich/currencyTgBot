@@ -34,6 +34,7 @@ exports.getRandomImage = () => {
       .then(data => data)
     })
     .catch(err => {
+      log('getRandomImage error:\n' + err)
       throw err;
     });
 };

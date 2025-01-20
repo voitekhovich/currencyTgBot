@@ -19,7 +19,7 @@ const lastMsg = {
   url: '',
   mesgId: ''
 };
-const messagesID = files.readMapFromFile();
+// const messagesID = files.readMapFromFile();
 
 exports.tgBot = (text) => {
   lastDate = text;
@@ -59,26 +59,26 @@ const editMsg = async (text, msgWait, format, msgId) => {
 }
 
 
-bot.onText(/^\/add(@aloy_vbot)?$/, async (msg) => {
-  const res = await bot.sendMessage(msg.chat.id, lastDate, {
-    // parse_mode: "HTML",
-    disable_notification: true,
-  });
+// bot.onText(/^\/add(@aloy_vbot)?$/, async (msg) => {
+//   const res = await bot.sendMessage(msg.chat.id, lastDate, {
+//     // parse_mode: "HTML",
+//     disable_notification: true,
+//   });
 
-  bot.pinChatMessage(res.chat.id, res.message_id);
+//   bot.pinChatMessage(res.chat.id, res.message_id);
 
-  if (
-    messagesID.get(res.chat.id) &&
-    messagesID.get(res.chat.id) !== res.message_id
-  ) {
-    console.log("unpin");
-    bot.deleteMessage(res.chat.id, messagesID.get(res.chat.id));
-  }
+//   if (
+//     messagesID.get(res.chat.id) &&
+//     messagesID.get(res.chat.id) !== res.message_id
+//   ) {
+//     console.log("unpin");
+//     bot.deleteMessage(res.chat.id, messagesID.get(res.chat.id));
+//   }
 
-  messagesID.set(res.chat.id, res.message_id);
-  console.log(messagesID);
-  files.saveMapToFile(messagesID);
-});
+//   messagesID.set(res.chat.id, res.message_id);
+//   console.log(messagesID);
+//   files.saveMapToFile(messagesID);
+// });
 
 bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
   if (lastDate === '') return console.log('курсы ещё не получены');
@@ -185,7 +185,7 @@ bot.onText(/^\/random(@aloy_vbot)?$/, async (msg) => {
     })
     .catch(err => {
       console.log(imgUrl);
-      bot.sendMsg(err, msg, true);
+      bot.sendMsg('random error:\n' + err.split('\n')[0], msg, true);
     })
 });
 
@@ -295,21 +295,21 @@ bot.on('text', async (msg) => {
 //   });
 // });
 
-const messageUpdate = () => {
-  console.log("Update messages...");
-  // console.log(messagesID);
-  for (let item of messagesID) {
-    // console.log(item);
-    const [chat_id, message_id] = item;
+// const messageUpdate = () => {
+//   console.log("Update messages...");
+//   // console.log(messagesID);
+//   for (let item of messagesID) {
+//     // console.log(item);
+//     const [chat_id, message_id] = item;
 
-    try {
-      bot.editMessageText(lastDate, {
-        chat_id,
-        message_id,
-        // parse_mode: "HTML",
-      });
-    } catch (err) {
-      console.log("Не обновилось");
-    }
-  }
-};
+//     try {
+//       bot.editMessageText(lastDate, {
+//         chat_id,
+//         message_id,
+//         // parse_mode: "HTML",
+//       });
+//     } catch (err) {
+//       console.log("Не обновилось");
+//     }
+//   }
+// };
