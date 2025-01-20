@@ -1,7 +1,7 @@
 require("dotenv").config();
 // loh
 const { DATABASE_FILE_NAME, INTERVAL_UPDATE } = require("./utils/constants");
-const { readFile } = require("./utils/files");
+// const { readFile } = require("./utils/files");
 const bot = require("./telegramBot/index.js");
 const bcseCurrency = require("./exchangeRates/bcseHtml");
 const { toTextOfValues } = require("./utils/string");

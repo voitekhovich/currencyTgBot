@@ -9,5 +9,7 @@ exports.request = () => {
       return Promise.reject(res.status);
     })
     .then(data => data.results.url)
-    .catch(err => err);
+    .catch(err => {
+      throw err;
+    });
 };

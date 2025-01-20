@@ -33,5 +33,7 @@ exports.getRandomImage = () => {
       return nbestapi.request()
       .then(data => data)
     })
-    .catch(err => err)
+    .catch(err => {
+      throw err;
+    });
 };
