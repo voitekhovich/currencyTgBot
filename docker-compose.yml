@@ -1,6 +1,7 @@
 services:
   app:
     build: .
+    container_name: tgbot
     command: ["node", "index.js"]
     restart: unless-stopped
     env_file:
