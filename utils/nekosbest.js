@@ -1,4 +1,4 @@
-const RANDOME_IMG_URL = 'https://api.nekosapi.com/v4/images/random';
+const RANDOME_IMG_URL = 'https://nekos.best/api/v2/neko';
 
 exports.request = () => {
   return fetch(RANDOME_IMG_URL, {
@@ -8,6 +8,6 @@ exports.request = () => {
       if (res.ok) return res.json();
       return Promise.reject(res.status);
     })
-    .then(data => data.items[0].image_url)
+    .then(data => data.results.url)
     .catch(err => err);
 };

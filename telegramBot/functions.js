@@ -1,6 +1,7 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const napi = require("../utils/nekosaapi");
+const nbestapi = require("../utils/nekosbest");
 
 
 exports.getUrlFromMessage = (message) => {
@@ -27,5 +28,10 @@ exports.getDataFromDOM = (url) => {
 
 exports.getRandomImage = () => {
   return napi.request()
-    .then(data => data.items[0].image_url)
+    .then(data => data)
+    .catch((err) => {
+      return nbestapi.request()
+      .then(data => data)
+    })
+    .catch(err => err)
 };

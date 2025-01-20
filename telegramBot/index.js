@@ -26,7 +26,7 @@ exports.tgBot = (text) => {
   messageUpdate();
 };
 
-console.log("Start bot...");
+console.log("Start tgBot...");
 
 const bot = new TelegramBot(API_KEY_BOT, {
   polling: {
@@ -89,49 +89,49 @@ bot.onText(/^\/now(@aloy_vbot)?$/, async (msg) => {
 });
 
 // YAGPT API
-bot.on('text', async msg => {
-  try {
-    if (msg.text.startsWith('gpt')) {
-      const result = await askAi(msg.text.slice(4));
-      await bot.sendMessage(msg.chat.id, result, {
-        disable_notification: true,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+// bot.on('text', async msg => {
+//   try {
+//     if (msg.text.startsWith('gpt')) {
+//       const result = await askAi(msg.text.slice(4));
+//       await bot.sendMessage(msg.chat.id, result, {
+//         disable_notification: true,
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // YAGPT ART
-bot.on('text', async msg => {
-  try {
-    if (msg.text.toLowerCase().startsWith('нарисуй')) {
+// bot.on('text', async msg => {
+//   try {
+//     if (msg.text.toLowerCase().startsWith('нарисуй')) {
 
-      getIDart(msg.text.slice(4))
-        .then(id => id)
-        .then(async id => {
-          const text = 'Рисую...';
-          const msgWait = await bot.sendMessage(msg.chat.id, text, {
-            disable_notification: true,
-          });
-          getImgArt(id)
-            .then(async image => {
-              await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
-              await bot.sendPhoto(msg.chat.id, image, {
-                disable_notification: true,
-              });
-            })
-        })
-        .catch(async err => {
-          await bot.sendMessage(msg.chat.id, err, {
-            disable_notification: true,
-          })
-        })
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
+//       getIDart(msg.text.slice(4))
+//         .then(id => id)
+//         .then(async id => {
+//           const text = 'Рисую...';
+//           const msgWait = await bot.sendMessage(msg.chat.id, text, {
+//             disable_notification: true,
+//           });
+//           getImgArt(id)
+//             .then(async image => {
+//               await bot.deleteMessage(msgWait.chat.id, msgWait.message_id);
+//               await bot.sendPhoto(msg.chat.id, image, {
+//                 disable_notification: true,
+//               });
+//             })
+//         })
+//         .catch(async err => {
+//           await bot.sendMessage(msg.chat.id, err, {
+//             disable_notification: true,
+//           })
+//         })
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // Слушаем каждое сообщение и запоминаем из него ссылку
 bot.on('text', async msg => {
@@ -178,7 +178,29 @@ bot.onText(/^\/random(@aloy_vbot)?$/, async (msg) => {
   func.getRandomImage()
     .then(imgUrl => {
       console.log(imgUrl);
-      bot.sendPhoto(msg.chat.id, imgUrl);
+      bot.sendPhoto(msg.chat.id, imgUrl, {
+        has_spoiler: true,
+        disable_notification: true, 
+      });
+    })
+    .catch(err => {
+      console.log(imgUrl);
+      bot.sendMsg(err, msg, true);
+    })
+});
+
+bot.onText(/^\/random(@aloy_vbot)?$/, async (msg) => {
+  func.getRandomImage()
+    .then(imgUrl => {
+      console.log(imgUrl);
+      bot.sendPhoto(msg.chat.id, imgUrl, {
+        has_spoiler: false,
+        disable_notification: true, 
+      });
+    })
+    .catch(err => {
+      console.log(imgUrl);
+      bot.sendMsg(err, msg, true);
     })
 });
 

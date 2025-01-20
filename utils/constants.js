@@ -19,10 +19,10 @@ exports.commands = [
     command: "now",
     description: "Текущий курс",
   },
-  {
-    command: "add",
-    description: "Закрепить курс",
-  },
+  // {
+  //   command: "add",
+  //   description: "Закрепить курс",
+  // },
   {
     command: "random",
     description: "Случайная Аниме картинка",

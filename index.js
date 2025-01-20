@@ -6,7 +6,7 @@ const bot = require("./telegramBot/index.js");
 const bcseCurrency = require("./exchangeRates/bcseHtml");
 const { toTextOfValues } = require("./utils/string");
 
-console.log("Start project...");
+console.log("Start bot...");
 
 let lastDate = "";
 
@@ -14,14 +14,14 @@ const getCurrency = () => {
   bcseCurrency.getData()
     .then((res) => {
       lastDate = toTextOfValues(res, ['USD','EUR','RUB'], true);
-      console.log(lastDate);
+      // console.log(lastDate);
       bot.tgBot(lastDate);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      console.log("getCurrency - Done");
+      // console.log("getCurrency - Done");
     });
 };
 
