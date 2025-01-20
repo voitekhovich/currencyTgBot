@@ -8,7 +8,7 @@ exports.request = () => {
       if (res.ok) return res.json();
       return Promise.reject(res.status);
     })
-    .then(data => data.results.url)
+    .then(data => data.results[0].url)
     .catch(err => {
       console.log('nekosbest error:' + err);
       throw err;
